@@ -4,11 +4,12 @@ const options = {
     definition: {
         openapi: "3.0.0",
         info: {
-            title: "Graphoria API",
+            title: "Graphoria Lite API",
             version: "1.0.0",
+            description: "API for a lightweight interactive graph editor"
         },
     },
-    apis: ["./routes/*.js"],
+    apis: ["./server.js"]
 };
 
 module.exports = swaggerJsdoc(options);
