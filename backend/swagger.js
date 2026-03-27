@@ -1,4 +1,5 @@
 const swaggerJsdoc = require("swagger-jsdoc");
+const path = require("node:path");
 
 const options = {
     definition: {
@@ -9,7 +10,7 @@ const options = {
             description: "API for a lightweight interactive graph editor"
         },
     },
-    apis: ["./server.js"]
+    apis: [path.join(__dirname, "server.js")]
 };
 
 module.exports = swaggerJsdoc(options);
