@@ -16,36 +16,9 @@ import Toolbar from "./components/Toolbar.jsx";
 import NodeEditor from "./components/NodeEditor.jsx";
 import GraphNode from "./components/GraphNode.jsx";
 import EdgeEditor from "./components/EdgeEditor";
+import CookieBanner from "./components/CookieBanner";
+import { hasUserConsented } from "./services/cookieService";
 
-
-function renderSidebar() {
-    if (selectedNode) {
-        return (
-            <NodeEditor
-                node={selectedNode}
-                onChange={handleNodeDataChange}
-                onDelete={handleDeleteNode}
-            />
-        );
-    }
-
-    if (selectedEdge) {
-        return (
-            <EdgeEditor
-                edge={selectedEdge}
-                onChange={handleEdgeLabelChange}
-                onDelete={handleDeleteEdge}
-            />
-        );
-    }
-
-    return (
-        <aside className="editor">
-            <h2>Editor</h2>
-            <p>Select a node or relation on the canvas.</p>
-        </aside>
-    );
-}
 
 function AppContent() {
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -53,6 +26,7 @@ function AppContent() {
     const [selectedNodeId, setSelectedNodeId] = useState(null);
     const [isSaving, setIsSaving] = useState(false);
     const [selectedEdgeId, setSelectedEdgeId] = useState(null);
+    const [showCookieBanner, setShowCookieBanner] = useState(false);
 
     const selectedEdge = edges.find((edge) => edge.id === selectedEdgeId) || null;
 
@@ -71,6 +45,10 @@ function AppContent() {
             } catch (error) {
                 console.error("Failed to load graph:", error);
             }
+        }
+
+        if (!hasUserConsented()) {
+            setShowCookieBanner(true);
         }
 
         loadGraph();
@@ -215,6 +193,35 @@ function AppContent() {
         [selectedEdgeId, setEdges]
     );
 
+    function renderSidebar() {
+        if (selectedNode) {
+            return (
+                <NodeEditor
+                    node={selectedNode}
+                    onChange={handleNodeDataChange}
+                    onDelete={handleDeleteNode}
+                />
+            );
+        }
+
+        if (selectedEdge) {
+            return (
+                <EdgeEditor
+                    edge={selectedEdge}
+                    onChange={handleEdgeLabelChange}
+                    onDelete={handleDeleteEdge}
+                />
+            );
+        }
+
+        return (
+            <aside className="editor">
+                <h2>Editor</h2>
+                <p>Select a node or relation on the canvas.</p>
+            </aside>
+        );
+    }
+
     return (
         <div className="app-layout">
             <div className="main-area">
@@ -245,6 +252,9 @@ function AppContent() {
             </div>
 
             {renderSidebar()}
+            {showCookieBanner && (
+                <CookieBanner onAccept={() => setShowCookieBanner(false)} />
+            )}
         </div>
     );
 }
