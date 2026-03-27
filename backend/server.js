@@ -1,3 +1,12 @@
+/**
+ * Main backend entry point for Graphoria Lite.
+ * Provides REST API endpoints for graph, node, and edge management.
+ * Also exposes Swagger documentation for API inspection.
+ *
+ * @module server
+ */
+
+
 const express = require("express");
 const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
