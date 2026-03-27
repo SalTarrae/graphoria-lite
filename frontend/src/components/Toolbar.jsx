@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 export default function Toolbar({
                                     onAddNode,
                                     onSave,
@@ -18,3 +20,10 @@ export default function Toolbar({
         </div>
     );
 }
+
+Toolbar.propTypes = {
+    onAddNode: PropTypes.func.isRequired,
+    onSave: PropTypes.func.isRequired,
+    isSaving: PropTypes.bool.isRequired,
+    hasSelectedNode: PropTypes.bool.isRequired
+};
