@@ -1,3 +1,6 @@
+import { Handle, Position } from "reactflow";
+import PropTypes from "prop-types";
+
 export default function GraphNode({ data }) {
     return (
         <div
@@ -6,6 +9,9 @@ export default function GraphNode({ data }) {
                 borderColor: data.color || "#2563eb"
             }}
         >
+            <Handle type="target" position={Position.Top} />
+            <Handle type="source" position={Position.Bottom} />
+
             <div
                 className="graph-node__header"
                 style={{
