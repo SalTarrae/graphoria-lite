@@ -62,3 +62,17 @@ export default function NodeEditor({ node, onChange, onDelete }) {
         </aside>
     );
 }
+
+NodeEditor.propTypes = {
+    node: PropTypes.shape({
+        id: PropTypes.string,
+        data: PropTypes.shape({
+            title: PropTypes.string,
+            description: PropTypes.string,
+            type: PropTypes.string,
+            color: PropTypes.string
+        })
+    }),
+    onChange: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired
+};

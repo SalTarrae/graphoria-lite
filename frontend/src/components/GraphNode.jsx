@@ -30,3 +30,12 @@ export default function GraphNode({ data }) {
         </div>
     );
 }
+
+GraphNode.propTypes = {
+    data: PropTypes.shape({
+        title: PropTypes.string,
+        description: PropTypes.string,
+        type: PropTypes.string,
+        color: PropTypes.string
+    }).isRequired
+};

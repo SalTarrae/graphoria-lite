@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 export default function EdgeEditor({ edge, onChange, onDelete }) {
     if (!edge) {
         return null;
@@ -22,3 +24,14 @@ export default function EdgeEditor({ edge, onChange, onDelete }) {
         </aside>
     );
 }
+
+EdgeEditor.propTypes = {
+    edge: PropTypes.shape({
+        id: PropTypes.string,
+        label: PropTypes.string,
+        source: PropTypes.string,
+        target: PropTypes.string
+    }),
+    onChange: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired
+};
