@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 export default function NodeEditor({ node, onChange, onDelete }) {
     if (!node) {
         return (

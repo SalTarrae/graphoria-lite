@@ -6,7 +6,8 @@ import ReactFlow, {
     MiniMap,
     ReactFlowProvider,
     useEdgesState,
-    useNodesState
+    useNodesState,
+    MarkerType
 } from "reactflow";
 
 import { fetchGraph, saveGraph } from "./api/graphApi";
@@ -14,12 +15,46 @@ import { createNewNode } from "./utils/nodeFactory";
 import Toolbar from "./components/Toolbar.jsx";
 import NodeEditor from "./components/NodeEditor.jsx";
 import GraphNode from "./components/GraphNode.jsx";
+import EdgeEditor from "./components/EdgeEditor";
+
+
+function renderSidebar() {
+    if (selectedNode) {
+        return (
+            <NodeEditor
+                node={selectedNode}
+                onChange={handleNodeDataChange}
+                onDelete={handleDeleteNode}
+            />
+        );
+    }
+
+    if (selectedEdge) {
+        return (
+            <EdgeEditor
+                edge={selectedEdge}
+                onChange={handleEdgeLabelChange}
+                onDelete={handleDeleteEdge}
+            />
+        );
+    }
+
+    return (
+        <aside className="editor">
+            <h2>Editor</h2>
+            <p>Select a node or relation on the canvas.</p>
+        </aside>
+    );
+}
 
 function AppContent() {
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
     const [selectedNodeId, setSelectedNodeId] = useState(null);
     const [isSaving, setIsSaving] = useState(false);
+    const [selectedEdgeId, setSelectedEdgeId] = useState(null);
+
+    const selectedEdge = edges.find((edge) => edge.id === selectedEdgeId) || null;
 
     useEffect(() => {
         async function loadGraph() {
@@ -57,7 +92,22 @@ function AppContent() {
                     {
                         ...connection,
                         id: `edge-${connection.source}-${connection.target}-${Date.now()}`,
-                        label: "reference"
+                        type: "smoothstep",
+                        label: "references",
+                        animated: false,
+                        markerEnd: {
+                            type: MarkerType.ArrowClosed
+                        },
+                        style: {
+                            strokeWidth: 2
+                        },
+                        labelStyle: {
+                            fontSize: 12,
+                            fontWeight: 600
+                        },
+                        labelBgPadding: [6, 3],
+                        labelBgBorderRadius: 4,
+                        labelBgStyle: { fill: "#ffffff", fillOpacity: 0.9 }
                     },
                     currentEdges
                 )
@@ -135,6 +185,36 @@ function AppContent() {
         }
     }, [nodes, edges]);
 
+    const onEdgeClick = useCallback((_, edge) => {
+        setSelectedEdgeId(edge.id);
+        setSelectedNodeId(null);
+    }, []);
+
+    const handleDeleteEdge = useCallback(() => {
+        if (!selectedEdgeId) return;
+
+        setEdges((currentEdges) =>
+            currentEdges.filter((edge) => edge.id !== selectedEdgeId)
+        );
+        setSelectedEdgeId(null);
+    }, [selectedEdgeId, setEdges]);
+
+    const handleEdgeLabelChange = useCallback(
+        (value) => {
+            setEdges((currentEdges) =>
+                currentEdges.map((edge) =>
+                    edge.id === selectedEdgeId
+                        ? {
+                            ...edge,
+                            label: value
+                        }
+                        : edge
+                )
+            );
+        },
+        [selectedEdgeId, setEdges]
+    );
+
     return (
         <div className="app-layout">
             <div className="main-area">
@@ -154,6 +234,7 @@ function AppContent() {
                         onEdgesChange={onEdgesChange}
                         onConnect={onConnect}
                         onNodeClick={onNodeClick}
+                        onEdgeClick={onEdgeClick}
                         fitView
                     >
                         <MiniMap />
@@ -163,11 +244,7 @@ function AppContent() {
                 </div>
             </div>
 
-            <NodeEditor
-                node={selectedNode}
-                onChange={handleNodeDataChange}
-                onDelete={handleDeleteNode}
-            />
+            {renderSidebar()}
         </div>
     );
 }
