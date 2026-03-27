@@ -61,7 +61,107 @@ function saveGraph(newGraph) {
     return graphData;
 }
 
+function getNodes() {
+    return graphData.nodes;
+}
+
+function getNodeById(id) {
+    return graphData.nodes.find((node) => node.id === id);
+}
+
+function createNode(node) {
+    graphData.nodes.push(node);
+    return node;
+}
+
+function updateNode(id, updatedFields) {
+    const index = graphData.nodes.findIndex((node) => node.id === id);
+
+    if (index === -1) {
+        return null;
+    }
+
+    graphData.nodes[index] = {
+        ...graphData.nodes[index],
+        ...updatedFields,
+        data: {
+            ...graphData.nodes[index].data,
+            ...(updatedFields.data || {})
+        },
+        position: {
+            ...graphData.nodes[index].position,
+            ...(updatedFields.position || {})
+        }
+    };
+
+    return graphData.nodes[index];
+}
+
+function deleteNode(id) {
+    const node = getNodeById(id);
+
+    if (!node) {
+        return null;
+    }
+
+    graphData.nodes = graphData.nodes.filter((item) => item.id !== id);
+    graphData.edges = graphData.edges.filter(
+        (edge) => edge.source !== id && edge.target !== id
+    );
+
+    return node;
+}
+
+function getEdges() {
+    return graphData.edges;
+}
+
+function getEdgeById(id) {
+    return graphData.edges.find((edge) => edge.id === id);
+}
+
+function createEdge(edge) {
+    graphData.edges.push(edge);
+    return edge;
+}
+
+function updateEdge(id, updatedFields) {
+    const index = graphData.edges.findIndex((edge) => edge.id === id);
+
+    if (index === -1) {
+        return null;
+    }
+
+    graphData.edges[index] = {
+        ...graphData.edges[index],
+        ...updatedFields
+    };
+
+    return graphData.edges[index];
+}
+
+function deleteEdge(id) {
+    const edge = getEdgeById(id);
+
+    if (!edge) {
+        return null;
+    }
+
+    graphData.edges = graphData.edges.filter((item) => item.id !== id);
+    return edge;
+}
+
 module.exports = {
     getGraph,
-    saveGraph
+    saveGraph,
+    getNodes,
+    getNodeById,
+    createNode,
+    updateNode,
+    deleteNode,
+    getEdges,
+    getEdgeById,
+    createEdge,
+    updateEdge,
+    deleteEdge
 };
