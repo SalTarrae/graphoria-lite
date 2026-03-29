@@ -105,6 +105,64 @@ graphoria-lite/
 
 ---
 
+## API Documentation
+
+The backend exposes a REST API documented using Swagger (OpenAPI 3.0). 
+
+[Video demonstrating](https://github.com/SalTarrae/graphoria-lite/tree/master/videos) Swagger documentation can be found at 
+/videos/Swagger.mov.
+
+Main endpoints include:
+
+### Graph
+
+* `GET /api/graph` — retrieve full graph
+* `POST /api/graph` — replace full graph
+
+### Nodes
+
+* `GET /api/nodes`
+* `GET /api/nodes/{id}`
+* `POST /api/nodes`
+* `PUT /api/nodes/{id}`
+* `DELETE /api/nodes/{id}`
+
+### Edges
+
+* `GET /api/edges`
+* `POST /api/edges`
+* `PUT /api/edges/{id}`
+* `DELETE /api/edges/{id}`
+
+---
+
+## License
+
+This project is distributed under the MIT License.
+
+See the [LICENSE](https://github.com/SalTarrae/graphoria-lite/blob/master/LICENSE) file for full details.
+
+---
+
+## Dependency License Analysis
+
+All project dependencies were analyzed using the `license-checker` tool.
+
+Generated reports:
+
+* `licenses-backend.txt`
+* `licenses-frontend.txt`
+
+The analysis confirms that the majority of dependencies use permissive licenses such as MIT, ISC, Apache-2.0, and BSD.
+
+Frontend package was excluded from the analysis using:
+
+```
+license-checker --excludePackages "graphoria-lite-frontend@1.0.0"
+```
+
+---
+
 ## Installation
 
 ### 1. Clone the repository
@@ -172,68 +230,16 @@ http://localhost:5173
 
 ---
 
-## API Documentation
-
-The backend exposes a REST API documented using Swagger (OpenAPI 3.0).
-
-Main endpoints include:
-
-### Graph
-
-* `GET /api/graph` — retrieve full graph
-* `POST /api/graph` — replace full graph
-
-### Nodes
-
-* `GET /api/nodes`
-* `GET /api/nodes/{id}`
-* `POST /api/nodes`
-* `PUT /api/nodes/{id}`
-* `DELETE /api/nodes/{id}`
-
-### Edges
-
-* `GET /api/edges`
-* `POST /api/edges`
-* `PUT /api/edges/{id}`
-* `DELETE /api/edges/{id}`
-
----
-
-## License
-
-This project is distributed under the MIT License.
-
-See the [LICENSE](https://github.com/SalTarrae/graphoria-lite/blob/master/LICENSE) file for full details.
-
----
-
-## Dependency License Analysis
-
-All project dependencies were analyzed using the `license-checker` tool.
-
-Generated reports:
-
-* `licenses-backend.txt`
-* `licenses-frontend.txt`
-
-The analysis confirms that the majority of dependencies use permissive licenses such as MIT, ISC, Apache-2.0, and BSD.
-
-Frontend package was excluded from the analysis using:
-
-```
-license-checker --excludePackages "graphoria-lite-frontend@1.0.0"
-```
-
----
-
 ## Privacy and GDPR
 
 The project includes a privacy policy document describing data handling and usage conditions:
 
 * `privacy-policy.md`
 
-A cookie consent mechanism can be integrated to comply with GDPR requirements.
+A cookie consent mechanism are integrated to comply with GDPR requirements. Since this is a demo project without authentication or users,
+the current cookie functionality is implemented as data in `Local storage` instead of browser cookie storage.
+
+[Video demonstrating](https://github.com/SalTarrae/graphoria-lite/tree/master/videos) Cookie popup can be found at /videos/Cookies.mov.
 
 ---
 
